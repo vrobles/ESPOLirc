@@ -19,7 +19,7 @@
 
 #include "user.h"
 //#include "util.h"
-//#include "text.h"
+#include "text.h"
 //#include "commands.h"
 //#include "receive_commands.h"
 
