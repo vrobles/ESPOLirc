@@ -18,10 +18,10 @@
 
 
 #include "user.h"
-//#include "util.h"
+#include "util.h"
 #include "text.h"
-//#include "commands.h"
-//#include "receive_commands.h"
+#include "commands.h"
+#include "receive_commands.h"
 
 #define LISTENQ 1
 #define MAXDATASIZE 100
