@@ -30,6 +30,9 @@
 Node *user_list;
 pthread_mutex_t user_list_mutex;
 
-void connect_user(User *);
+/*Prototipos de funciones*/
+int open_socket();
+int bind_to_port(int, int);
+void connection_handler(User *);
 
 #endif
