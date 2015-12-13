@@ -10,7 +10,7 @@ void connection_handler(User *user){
 	int read_size;
 	
 	//Send some messages to the client
-    mensaje = "Soy el Manejador de conexion. Yo me comunicare con usted, Ahora escriba un comando\n";
+    mensaje = "Soy el Manejador de conexion. Yo me comunicare con usted.\n Ahora escriba un comando\n";
     write(user->socket , mensaje , strlen(mensaje));
     pthread_mutex_lock(&user->socket_mutex);
     read_size = read(user->socket, message, MAXLINE);
@@ -23,7 +23,7 @@ void connection_handler(User *user){
 		command = uppercase(command);
 	
 		while(command != NULL) {
-			printf("El Usuario %s envio este comando:: \"%s\"]\n", user->name, command);
+			printf("El Usuario %s envio este comando:: \"%s\"]\n", user->nick, command);
 			if(strcmp(command, NICK) == 0) {
                 receive_nick(user, user_list, strtok(NULL, " \t\r\n/"), send_message); //strtok:: la segunda cadena de line
             }else if(strcmp(command, USER) == 0) {

@@ -12,15 +12,19 @@ void receive_nick(User *user, Node *users, char *nick, char *send_line) {
     send_line = stradd(send_line, "!");
     send_line = stradd(send_line, user->hostname);
     send_line = stradd(send_line, " ");
-	if(nick != NULL)
-		user->nick = strset(nick);
-	else if(get_user_by_name(users, nick) != NULL){
+	if(nick == NULL){
+		send_line = stradd(send_line, "NICK no ingresado!!!, Ingrese un nick: ");
+		send_line = stradd(send_line, "\n");
+		write(user->socket, send_line, strlen(send_line));
+		return;
+	}else if(get_user_by_name(users, nick) != NULL){
 		send_line = stradd(send_line, "NICK ya existe!!!, Ingrese un nuevo nick: ");
 		send_line = stradd(send_line, "\n");
 		write(user->socket, send_line, strlen(send_line));
 		return;
 	}
-		
+	
+	user->nick = strset(nick);
 	send_line = stradd(send_line, NICK);
 	send_line = stradd(send_line, " :");
 	send_line = stradd(send_line, user->nick);
