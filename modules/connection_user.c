@@ -6,12 +6,11 @@ void connection_handler(User *user){
 	char message[MAXLINE + 1];
 	char *line = malloc(MAXLINE + 1);
 	char *send_message = malloc(MAXLINE + 1);
-	char *command;
-	char *mensaje;
+	char *command, *mensaje;
 	int read_size;
 	
 	//Send some messages to the client
-    mensaje = "Soy el Manejador de conexion. Yo me comunicare con usted, Ahora escriba algo\n";
+    mensaje = "Soy el Manejador de conexion. Yo me comunicare con usted, Ahora escriba un comando\n";
     write(user->socket , mensaje , strlen(mensaje));
     pthread_mutex_lock(&user->socket_mutex);
     read_size = read(user->socket, message, MAXLINE);
@@ -20,27 +19,23 @@ void connection_handler(User *user){
 	while(read_size > 0 && strlen(message)!=2){
 		message[read_size] = 0;
 		line = strcpy(line, message);
-
-
 		command = strtok(line, " \t\r\n/"); //strtok:: la primera cadena delimitado por espacio
-
-		
-        	command = uppercase(command);
+		command = uppercase(command);
 	
 		while(command != NULL) {
 			printf("El Usuario %s envio este comando:: \"%s\"]\n", user->name, command);
 			if(strcmp(command, NICK) == 0) {
                 receive_nick(user, user_list, strtok(NULL, " \t\r\n/"), send_message); //strtok:: la segunda cadena de line
-            }
+            }else if(strcmp(command, USER) == 0) {
+                receive_user(user, strtok(NULL, " \t\r\n/"), send_message);
+			}
 
-		command = strtok(NULL, " \t\r\n/");
-		}else if(strcmp(command, USER) == 0) {
-                receive_user(user, send_message);
-        }
+			command = strtok(NULL, " \t\r\n/");
+		}
 	
 	
 	    //Enviar respuesta al cliente
-		mensaje = "Su mensaje fue recibido, continue escribiendo algo\n";
+		mensaje = "Escriba otro comando\n";
         write(user->socket , mensaje , strlen(mensaje));
 		
 		//clear the message buffer
@@ -49,14 +44,13 @@ void connection_handler(User *user){
 	    pthread_mutex_lock(&user->socket_mutex);
         read_size = read(user->socket, message, MAXLINE);
         pthread_mutex_unlock(&user->socket_mutex);
-		
 	}
      
 	 
 	 
     if(read_size == 0){
         //puts("Cliente Desconectado");
-	printf("Usuario %d Desconectado\n", user->id);
+		printf("Usuario %d Desconectado\n", user->id);
         fflush(stdout);
     }
     else if(read_size == -1){

@@ -1,10 +1,11 @@
 #ifndef TEXT_H
 #define TEXT_H
 
-extern char *WELCOME;
-extern char *WELCOME_HOSTNAME;
-extern char *DUMMY_USER;
-extern char *DUMMY_CHANNEL;
+char *DUMMY_USER;
+char *DUMMY_NICK;
+char *DUMMY_CHANNEL;
+char *WELCOME;
+char *WELCOME_NICK;
 
 
 //extern char *DUMMY_HOST;
