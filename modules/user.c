@@ -70,15 +70,15 @@ Node *add_user(Node *list, char *name, char *nick, char *hostname,
     }
 }
 
-User *get_user_by_name(Node *users, char *name) {
+User *get_user_by_nick(Node *users, char *nick) {
     int i;
     int list_length = length(users);
     Node *p         = users;
     User *user      = p->payload;
     for(i = 0; i < list_length; i++) {
-        if(strcmp(user->name, name) == 0) {
+        if(strcmp(user->nick, nick) == 0) {
             return user;
-        };
+        }
         p    = p->next;
         user = p->payload;
     }

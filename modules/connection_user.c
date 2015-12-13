@@ -23,7 +23,6 @@ void connection_handler(User *user){
 		command = uppercase(command);
 	
 		while(command != NULL) {
-			printf("El Usuario %s envio este comando:: \"%s\"]\n", user->nick, command);
 			if(strcmp(command, NICK) == 0) {
                 receive_nick(user, user_list, strtok(NULL, " \t\r\n/"), send_message); //strtok:: la segunda cadena de line
             }else if(strcmp(command, USER) == 0) {
@@ -33,6 +32,7 @@ void connection_handler(User *user){
                 receive_list(user, user_list, send_message);
             }
 
+			printf("El Usuario %d envio este comando:: \"%s\"]\n", user->id, command);
 			command = strtok(NULL, " \t\r\n/");
 		}
 	

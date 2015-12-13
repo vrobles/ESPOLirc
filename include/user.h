@@ -23,16 +23,22 @@ typedef struct _Node {
     User *payload;
 } Node;
 
-int length(Node *);
-int print_node_list(Node *);
-int change_name(User *, char *);
-int change_channel(User *, char *);
 
 Node *empty_user_list();
-Node *remove_user(Node *, char *);
-User *get_user_by_id(Node *, int);
-User *get_user_by_name(Node *, char *);
-char *get_users_in_channel(Node *, char *, char *);
+int length(Node *);
 Node *add_user(Node *, char *, char *, char *, int, char *, int);
+User *get_user_by_nick(Node *, char *);
+
+
+//int print_node_list(Node *);
+//int change_name(User *, char *);
+//int change_channel(User *, char *);
+
+
+//Node *remove_user(Node *, char *);
+//User *get_user_by_id(Node *, int);
+
+//char *get_users_in_channel(Node *, char *, char *);
+
 
 #endif
