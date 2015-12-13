@@ -29,6 +29,9 @@ void connection_handler(User *user){
             }else if(strcmp(command, USER) == 0) {
                 receive_user(user, strtok(NULL, " \t\r\n/"), send_message);
 			}
+			else if(strcmp(command, LIST) == 0) {
+                receive_list(user, user_list, send_message);
+            }
 
 			command = strtok(NULL, " \t\r\n/");
 		}

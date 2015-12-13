@@ -40,3 +40,27 @@ void receive_user(User *user, char *name, char *send_line) {
 
     write(user->socket, send_line, strlen(send_line));
 }
+
+void receive_list(User *user, Node *users, char *send_line) {
+	char *channel;
+	Node *first  = users;
+    Node *p      = users;
+    User *target = (User *) p->payload;
+
+	send_line = strset("Los canales son:: ");
+	send_line = stradd(send_line, target->current_channel);
+	channel = target->current_channel;
+    p = p->next;
+    target = (User *) p->payload;
+	
+    while(p != first) {
+        if(strcmp(target->current_channel, channel) != 0){
+			send_line = stradd(send_line, ", ");
+			send_line = stradd(send_line, target->current_channel);
+		}			
+        p = p->next;
+        target = (User *) p->payload;
+    }
+	send_line = stradd(send_line, "\n");
+    write(user->socket, send_line, strlen(send_line));
+}

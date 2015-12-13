@@ -39,4 +39,4 @@ void send_all(char *channel, char *message, Node *users) {
         p = p->next;
         target = (User *) p->payload;
     }
-};
+}
