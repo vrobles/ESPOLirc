@@ -17,7 +17,8 @@
 void receive_nick(User *, Node *, char *, char *);
 void receive_user(User *, char *, char *);
 void receive_list(User *, Node *, char *);
-
+void receive_join(User *, Node *, char *, char *);
+void receive_part(User *, Node *, char *);
 
 //void receive_ping(User *, char *);
 
@@ -25,13 +26,13 @@ void receive_list(User *, Node *, char *);
 //void receive_machora(User *, char *);
 //void receive_mactemp(User *, char *);
 //
-//void receive_part(User *, Node *, char *);
+
 //void receive_mode(User *, char *, char *);
 //void receive_pong(User *, char *, char *);
 //void receive_whois(Node *, char *, char *);
 //void receive_who(User *, Node *, char *, char *);
 //void receive_dcc(User *, Node *, char *, char *);
-//void receive_join(User *, Node *, char *, char *);
+
 
 //void receive_privmsg(User *, Node *, char *, char *);
 //Node *receive_quit(User *, Node *, pthread_mutex_t, char *);

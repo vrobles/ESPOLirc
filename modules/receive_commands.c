@@ -7,24 +7,25 @@
 #include "../include/commands.h"
 
 void receive_nick(User *user, Node *users, char *nick, char *send_line) {
-    send_line = strset(":");
-    send_line = stradd(send_line, user->name);
-    send_line = stradd(send_line, "!");
-    send_line = stradd(send_line, user->hostname);
-    send_line = stradd(send_line, " ");
 	if(nick == NULL){
-		send_line = stradd(send_line, "NICK no ingresado!!!, Ingrese un nick: ");
-		send_line = stradd(send_line, "\n");
+		send_line = strset("Nick no ingresado!!!, Ingrese un nick. \n");
 		write(user->socket, send_line, strlen(send_line));
 		return;
-	}else if(get_user_by_nick(users, nick) != NULL){
-		send_line = stradd(send_line, "Este Nick ya existe!!!, Ingrese un nuevo nick: ");
-		send_line = stradd(send_line, "\n");
+	}
+	if(get_user_by_nick(users, nick) != NULL){
+		send_line = strset("Este Nick ya existe!!!, Ingrese un nuevo nick. \n");
 		write(user->socket, send_line, strlen(send_line));
 		return;
 	}
 	
 	user->nick = strset(nick);
+	
+	send_line = strset(":");
+    send_line = stradd(send_line, user->nick);
+    send_line = stradd(send_line, "!");
+    send_line = stradd(send_line, user->hostname);
+    send_line = stradd(send_line, " ");
+	
 	send_line = stradd(send_line, NICK);
 	send_line = stradd(send_line, " :");
 	send_line = stradd(send_line, user->nick);
@@ -68,3 +69,46 @@ void receive_list(User *user, Node *users, char *send_line) {
 	send_line = stradd(send_line, "\n");
     write(user->socket, send_line, strlen(send_line));
 }
+void receive_join(User *user, Node *users, char *channel, char *send_line) {
+	if(channel == NULL){
+		send_line = strset("Channel no ingresado!!!, Ingrese un nick. \n");
+		write(user->socket, send_line, strlen(send_line));
+		return;
+	}
+	if(strcmp(user->nick, NICK) == 0){
+		send_line = strset("Nick no ingresado!!!, Ingrese un nick. \n");
+		write(user->socket, send_line, strlen(send_line));
+		return;
+	}
+    send_line = strset(":");
+    send_line = stradd(send_line, user->nick);
+    send_line = stradd(send_line, "!");
+    send_line = stradd(send_line, user->hostname);
+    send_line = stradd(send_line, " ");
+    send_line = stradd(send_line, JOIN);
+
+    send_line = stradd(send_line, " #");
+    send_line = stradd(send_line, channel);
+    send_line = stradd(send_line, "\n");
+
+    user->current_channel = strset(channel);
+    write(user->socket, send_line, strlen(send_line));
+    send_names(user, users, send_line);
+}
+
+void receive_part(User *user, Node *users, char *send_line) {
+    send_line = strset(":");
+    send_line = stradd(send_line, user->nick);
+    send_line = stradd(send_line, "!");
+    send_line = stradd(send_line, user->hostname);
+    send_line = stradd(send_line, " ");
+    send_line = stradd(send_line, PART);
+
+    send_line = stradd(send_line, " #");
+    send_line = stradd(send_line, user->current_channel);
+    send_line = stradd(send_line, "\n");
+
+    send_all(user->current_channel, send_line, users);
+    user->current_channel = strset(DUMMY_CHANNEL);
+}
+

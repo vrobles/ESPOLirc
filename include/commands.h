@@ -4,11 +4,13 @@
 extern char *NICK;
 extern char *USER;
 extern char *LIST;
+extern char *JOIN;
+extern char *PART;
 
 //extern char *DCC;
 //extern char *WHO;
-//extern char *JOIN;
-//extern char *PART;
+
+
 //extern char *MODE;
 //extern char *PING;
 //extern char *PONG;
