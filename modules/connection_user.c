@@ -28,24 +28,28 @@ void connection_handler(User *user){
         	command = uppercase(command);
 	
 		while(command != NULL) {
-			printf("El Usuario %s envio esto:: \"%s\"]\n", user->name, command);
+			printf("El Usuario %s envio este comando:: \"%s\"]\n", user->name, command);
 			if(strcmp(command, NICK) == 0) {
-                receive_nick(user, user_list,
-                             strtok(NULL, " \t\r\n/"),
-                             send_message); //strtok:: la segunda cadena de line
+                receive_nick(user, user_list, strtok(NULL, " \t\r\n/"), send_message); //strtok:: la segunda cadena de line
             }
 
 		command = strtok(NULL, " \t\r\n/");
-		}
+		}else if(strcmp(command, USER) == 0) {
+                receive_user(user, send_message);
+        }
 	
 	
 	    //Enviar respuesta al cliente
 		mensaje = "Su mensaje fue recibido, continue escribiendo algo\n";
         write(user->socket , mensaje , strlen(mensaje));
 		
+		//clear the message buffer
+		memset(message, 0, MAXLINE);
+		
 	    pthread_mutex_lock(&user->socket_mutex);
         read_size = read(user->socket, message, MAXLINE);
         pthread_mutex_unlock(&user->socket_mutex);
+		
 	}
      
 	 

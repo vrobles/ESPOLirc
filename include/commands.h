@@ -4,7 +4,7 @@
 //extern char *DCC;
 //extern char *WHO;
 extern char *NICK;
-//extern char *USER;
+extern char *USER;
 //extern char *LIST;
 //extern char *JOIN;
 //extern char *PART;

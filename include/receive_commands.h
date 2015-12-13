@@ -15,7 +15,7 @@
 #include <pthread.h>
 
 //void receive_ping(User *, char *);
-//void receive_user(User *, char *);
+void receive_user(User *, char *);
 //void receive_macdata(User *, char *);
 //void receive_machora(User *, char *);
 //void receive_mactemp(User *, char *);
