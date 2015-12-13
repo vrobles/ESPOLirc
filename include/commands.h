@@ -1,11 +1,12 @@
 #ifndef COMMANDS_H
 #define COMMANDS_H
 
-//extern char *DCC;
-//extern char *WHO;
 extern char *NICK;
 extern char *USER;
-//extern char *LIST;
+extern char *LIST;
+
+//extern char *DCC;
+//extern char *WHO;
 //extern char *JOIN;
 //extern char *PART;
 //extern char *MODE;
