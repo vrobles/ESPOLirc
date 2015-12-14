@@ -2,8 +2,6 @@
 #include "../include/util.h"
 #include "../include/text.h"
 #include "../include/receive_commands.h"
-//#include "../include/responses.h"
-//#include "../include/errors.h"
 #include "../include/commands.h"
 
 void receive_nick(User *user, Node *users, char *nick, char *send_line) {
@@ -185,4 +183,40 @@ Node *receive_quit(User *user, Node *users, pthread_mutex_t list_mutex, char *se
     else {
         return empty_user_list();
     }
+}
+
+void receive_time(User *user, char *send_line) {
+	time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+
+    char date[16], time[16];
+	
+	if(strcmp(user->current_channel, DUMMY_CHANNEL) != 0) {
+        send_line = strset(":");
+        send_line = stradd(send_line, user->nick);
+        send_line = stradd(send_line, "!");
+        send_line = stradd(send_line, user->hostname);
+        send_line = stradd(send_line, " ");
+        send_line = stradd(send_line, PRIVMSG);
+
+        send_line = stradd(send_line, " #");
+        send_line = stradd(send_line, user->current_channel);
+        send_line = stradd(send_line, " :");
+    }else {
+        send_line = strset(":irc.operativos.org NOTICE * :*** ");
+    }
+	sprintf(date, "%02d/%02d/%04d\n", tm.tm_mday, tm.tm_mon + 1,
+                                          tm.tm_year + 1900);
+
+    send_line     = stradd(send_line, "Fecha del Servidor: ");
+    send_line     = stradd(send_line, date);
+
+	    sprintf(time, "%02d:%02d:%02d -- %s\n", tm.tm_hour, tm.tm_min,
+                                            tm.tm_sec, tm.tm_zone);
+
+    send_line     = stradd(send_line, "Hora del  Servidor: ");
+    send_line     = stradd(send_line, time);
+
+    write(user->socket, send_line, strlen(send_line));
+	
 }

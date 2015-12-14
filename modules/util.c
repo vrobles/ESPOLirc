@@ -47,9 +47,7 @@ void send_names(User *user, Node *users, char *send_line) {
 
     User *target = (User *) p->payload;
     send_line = strset(":");
-    //send_line = stradd(send_line, SERVER_NAME);
     send_line = stradd(send_line, " ");
-    //send_line = stradd(send_line, RPL_NAMREPLY);
     send_line = stradd(send_line, " ");
     send_line = stradd(send_line, user->nick);
     send_line = stradd(send_line, " @ #");
@@ -71,14 +69,11 @@ void send_names(User *user, Node *users, char *send_line) {
     }
     send_line = stradd(send_line, "\n");
     send_line = stradd(send_line, ":");
-    //send_line = stradd(send_line, SERVER_NAME);
     send_line = stradd(send_line, " ");
-    //send_line = stradd(send_line, RPL_ENDOFNAMES);
     send_line = stradd(send_line, " ");
     send_line = stradd(send_line, user->nick);
     send_line = stradd(send_line, " #");
     send_line = stradd(send_line, user->current_channel);
-    //send_line = stradd(send_line, ENDOFNAMES);
     send_line = stradd(send_line, "\n");
     send_all(user->current_channel, send_line, users);
 }

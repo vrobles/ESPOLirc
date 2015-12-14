@@ -8,5 +8,6 @@ extern char *JOIN;
 extern char *PART;
 extern char *PRIVMSG;
 extern char *QUIT;
+extern char *TIME;
 
 #endif

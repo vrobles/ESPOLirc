@@ -124,7 +124,7 @@ Node *remove_user(Node *list, char *nick) {
             p    = p->next;
             user = (User *) p->payload;
         }
-        printf("el NIck  %s no esta en la lista.\n", nick);
+        printf("El Nick  %s no esta en la lista.\n", nick);
         return list;
     }
 }

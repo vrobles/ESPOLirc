@@ -7,3 +7,4 @@ char *JOIN           = "JOIN";
 char *PART           = "PART";
 char *PRIVMSG        = "PRIVMSG";
 char *QUIT           = "QUIT";
+char *TIME			 = "TIME";

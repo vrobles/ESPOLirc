@@ -7,6 +7,4 @@ char *DUMMY_CHANNEL;
 char *WELCOME;
 char *WELCOME_NICK;
 
-
-
 #endif
