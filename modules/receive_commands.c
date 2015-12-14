@@ -51,21 +51,75 @@ void receive_list(User *user, Node *users, char *send_line) {
 	Node *first  = users;
     Node *p      = users;
     User *target = (User *) p->payload;
+char *prim_line = strset("Los canales son:: ");
+char arreglo[10][20];
+char aux[20];
+int i, j, k;
+int l=0;
 
-	send_line = strset("Los canales son:: ");
-	send_line = stradd(send_line, target->current_channel);
+//if(strcmp(target->current_channel, DUMMY_CHANNEL) != 0){
+	strcpy(arreglo[l++], target->current_channel);	
+//}
+
+	//send_line = stradd(send_line, target->current_channel);
 	channel = target->current_channel;
     p = p->next;
     target = (User *) p->payload;
+
 	
     while(p != first) {
-        if(strcmp(target->current_channel, channel) != 0){
-			send_line = stradd(send_line, ", ");
-			send_line = stradd(send_line, target->current_channel);
-		}			
+       // if(strcmp(target->current_channel, channel) != 0){
+			//send_line = stradd(send_line, ",");
+			//send_line = stradd(send_line, target->current_channel);
+	//	}	
+	//if(strcmp(target->current_channel, DUMMY_CHANNEL) != 0){
+		strcpy(arreglo[l++], target->current_channel);		
+	//}	
         p = p->next;
         target = (User *) p->payload;
     }
+	    // ORDENAR CADENAS
+    for(i=0; i<l-1; i++)
+    {
+        k=i;
+        strcpy(aux, arreglo[i]);
+        for(j=i+1; j<l; j++)
+        {
+            if(strcmp(arreglo[j], aux)<0)
+            {
+                k=j;
+                strcpy(aux, arreglo[j]);
+               //permite hacer una copia auxiliar de la cadena arreglo[j];
+            }
+        }
+        strcpy(arreglo[k],arreglo[i]);
+        strcpy(arreglo[i],aux);
+    }
+
+
+
+
+
+
+//	char *tmp=strtok(send_line, ",\t\r\n");
+//	while(tmp != NULL){
+//		if(strcmp(target->current_channel, tmp) == 0){
+//			i++;
+//		}
+		/* Extraemos la siguiente palabra */
+//		tmp=strtok(NULL, ",\t\r\n");
+//	}
+
+
+//strcpy(arrreglo[l++], arreglo);	
+send_line = stradd(prim_line, *arreglo);
+for(i=1;i<l;i++){
+if(strcmp(arreglo[i], arreglo[i-1]) != 0){
+	send_line = stradd(send_line, ", ");
+	send_line = stradd(send_line, arreglo[i]);
+
+}
+}
 	send_line = stradd(send_line, "\n");
     write(user->socket, send_line, strlen(send_line));
 }

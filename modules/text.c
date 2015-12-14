@@ -1,7 +1,7 @@
 #include "../include/text.h"
 
-DUMMY_USER      = "anonimo";
-DUMMY_NICK      = "*";
-DUMMY_CHANNEL   = "*";
-WELCOME = "Bienvenido usuario: ";
-WELCOME_NICK = "Su  nick es: ";
+char *DUMMY_USER      = "anonimo";
+char *DUMMY_NICK      = "*";
+char *DUMMY_CHANNEL   = "*";
+char *WELCOME = "Bienvenido usuario: ";
+char *WELCOME_NICK = "Su  nick es: ";

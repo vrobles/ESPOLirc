@@ -1,11 +1,11 @@
 #include "../include/commands.h"
 
-NICK           = "NICK";
-USER           = "USER";
-LIST           = "LIST";
-JOIN           = "JOIN";
-PART           = "PART";
-PRIVMSG        = "PRIVMSG";
+char *NICK           = "NICK";
+char *USER           = "USER";
+char *LIST           = "LIST";
+char *JOIN           = "JOIN";
+char *PART           = "PART";
+char *PRIVMSG        = "PRIVMSG";
 
 //char *MODE           = "MODE";
 //char *PING           = "PING";
