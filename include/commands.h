@@ -6,6 +6,7 @@ extern char *USER;
 extern char *LIST;
 extern char *JOIN;
 extern char *PART;
+extern char *PRIVMSG;
 
 //extern char *DCC;
 //extern char *WHO;
@@ -17,7 +18,7 @@ extern char *PART;
 //extern char *QUIT;
 //extern char *WHOIS;
 //extern char *NOTICE;
-//extern char *PRIVMSG;
+
 //extern char *MACDATA;
 //extern char *MACHORA;
 //extern char *MACTEMPERATURA;

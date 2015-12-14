@@ -82,3 +82,24 @@ void send_names(User *user, Node *users, char *send_line) {
     send_line = stradd(send_line, "\n");
     send_all(user->current_channel, send_line, users);
 }
+
+void send_others(char *nick, char *channel, char *message, Node *users) {
+    Node *first  = users;
+    Node *p      = users;
+    User *target = (User *) p->payload;
+
+    if((strcmp(target->nick, nick) != 0 && strcmp(target->current_channel, channel) == 0)
+	|| (strcmp(target->nick, nick) != 0 && strcmp(target->nick, channel) == 0)){
+        write(target->socket, message, strlen(message));
+    }
+    p = p->next;
+    target = (User *) p->payload;
+    while(p != first) {
+        if((strcmp(target->nick, nick) != 0 && strcmp(target->current_channel, channel) == 0)
+		|| (strcmp(target->nick, nick) != 0 && strcmp(target->nick, channel) == 0)){
+            write(target->socket, message, strlen(message));
+        }
+        p = p->next;
+        target = (User *) p->payload;
+    }
+}

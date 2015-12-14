@@ -71,7 +71,7 @@ void receive_list(User *user, Node *users, char *send_line) {
 }
 void receive_join(User *user, Node *users, char *channel, char *send_line) {
 	if(channel == NULL){
-		send_line = strset("Channel no ingresado!!!, Ingrese un nick. \n");
+		send_line = strset("Channel no ingresado!!!, Ingrese un channel. \n");
 		write(user->socket, send_line, strlen(send_line));
 		return;
 	}
@@ -112,3 +112,39 @@ void receive_part(User *user, Node *users, char *send_line) {
     user->current_channel = strset(DUMMY_CHANNEL);
 }
 
+void receive_privmsg(User *user, Node *users, char *send_line, char *message) {
+    char *line, *channel, *word;
+
+    line           = malloc(strlen(message) + 1);
+    line           = strcpy(line, message);
+
+    strtok(line, " \t\r\n/");
+    channel        = strtok(NULL, " #\t\r\n/");
+	
+	if(strlen(channel)==2){
+		send_line = strset("Channel no ingresado!!!, Ingrese un channel. \n");
+		write(user->socket, send_line, strlen(send_line));
+		return;
+	}	
+
+    send_line      = strset(":");
+    send_line      = stradd(send_line, user->nick);
+    send_line      = stradd(send_line, "!");
+    send_line      = stradd(send_line, user->hostname);
+    send_line      = stradd(send_line, " ");
+    send_line      = stradd(send_line, PRIVMSG);
+
+    send_line      = stradd(send_line, " #");
+    send_line      = stradd(send_line, channel);
+    send_line      = stradd(send_line, " :");
+
+    word           = strtok(NULL, " :\t\r\n/");
+
+    while (word   != NULL) {
+        send_line  = stradd(send_line, word);
+        send_line  = stradd(send_line, " ");
+        word       = strtok(NULL, " \t\r\n/");
+    }
+	send_line      = stradd(send_line, "\n");
+    send_others(user->nick, channel, send_line, users);
+}

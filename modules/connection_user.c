@@ -33,10 +33,10 @@ void connection_handler(User *user){
                 receive_join(user, user_list, strtok(NULL, " #\t\r\n/"), send_message);
             }else if(strcmp(command, PART) == 0) {
                 receive_part(user, user_list, send_message);
+            }else if(strcmp(command, PRIVMSG) == 0) {
+                receive_privmsg(user, user_list, send_message, message);
             }
 			
-			
-
 			printf("El Usuario %d envio este comando:: \"%s\"]\n", user->id, command);
 			command = strtok(NULL, " \t\r\n/");
 		}
