@@ -37,7 +37,8 @@ void connection_handler(User *user){
                 receive_privmsg(user, user_list, send_message, message);
             }else if(strcmp(command, QUIT) == 0) {
                 user_list = receive_quit(user, user_list, user_list_mutex, send_message);
-            }else if(strcmp(command, TIME) == 0) {
+				return;
+			}else if(strcmp(command, TIME) == 0) {
 				receive_time(user, send_message);
             }
 			
