@@ -128,3 +128,18 @@ Node *remove_user(Node *list, char *nick) {
         return list;
     }
 }
+
+
+User *get_all_users(Node *users, char *nick) {
+    int i;
+    int list_length = length(users);
+    Node *p         = users;
+    User *user      = p->payload;
+    for(i = 0; i < list_length; i++) {
+        return user;
+        p    = p->next;
+        user = p->payload;
+    }
+    return NULL;
+}
+

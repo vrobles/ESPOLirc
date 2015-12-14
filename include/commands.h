@@ -9,5 +9,6 @@ extern char *PART;
 extern char *PRIVMSG;
 extern char *QUIT;
 extern char *TIME;
+extern char *USERS;
 
 #endif

@@ -22,5 +22,6 @@ void receive_part(User *, Node *, char *);
 void receive_privmsg(User *, Node *, char *, char *);
 Node *receive_quit(User *, Node *, pthread_mutex_t, char *);
 void receive_time(User *, char *);
+void receive_users(User *, Node *, char *);
 
 #endif

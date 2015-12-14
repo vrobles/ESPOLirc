@@ -44,11 +44,12 @@ void receive_user(User *user, char *name, char *send_line) {
     write(user->socket, send_line, strlen(send_line));
 }
 
+
 void receive_list(User *user, Node *users, char *send_line) {
 	Node *first  = users;
     Node *p      = users;
     User *target = (User *) p->payload;
-	char *prim_line = strset("Los canales son:: ");
+	char *prim_line = strset("Los canales son: ");
 	char arreglo[30][40];
 	char aux[40];
 	int i, j, k, l=0;
@@ -108,7 +109,6 @@ void receive_join(User *user, Node *users, char *channel, char *send_line) {
     send_line = stradd(send_line, " #");
     send_line = stradd(send_line, channel);
     send_line = stradd(send_line, "\n");
-
     user->current_channel = strset(channel);
     write(user->socket, send_line, strlen(send_line));
     send_names(user, users, send_line);
@@ -219,4 +219,19 @@ void receive_time(User *user, char *send_line) {
 
     write(user->socket, send_line, strlen(send_line));
 	
+}
+
+
+
+void receive_users(User *user, Node *users, char *send_line){
+
+    //if(get_all_users(users) != NULL){
+        //send_line = strset("Este Nick ya existe!!!, Ingrese un nuevo nick. \n");
+       // write(user->socket, send_line, strlen(send_line));
+        //return;
+   // }
+    
+    send_line = stradd(send_line, LIST_USER);
+    send_line = stradd(send_line, get_all_users(users)); 
+
 }
