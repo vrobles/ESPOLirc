@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Chat Espol</title>
+</head>
+<body>
+
+<div class="historialMensajes">
+	
+</div>
+<input type="text" placeholder="Escriba el mensaje que quiere enviar" id="mensajeEnviar" class="inputMensaje">
+<button onclick="enviarMensaje();">Enviar</button>
+
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+	//var ws;
+	var mensaje_servidor;
+         function WebSocketTest(){
+            if ("WebSocket" in window){
+           		//Abrimos la conexion al servidor
+            	var ws= new WebSocket("ws://localhost:7200");
+				
+            	ws.onopen = function(){
+            		alert('1');
+                	console.log('Se ha conectacto al servidor');
+            	};
+            	ws.onerror = function(error){
+            		alert(error);
+            		console.log(error);
+            	}
+				
+            	ws.onmessage = function (evt) { 
+               		mensaje_servidor = evt.data;
+               		mensaje_servidor = '<p>'+mensaje_servidor+'<p>';
+               		$('.historialMensajes').append(mensaje_servidor);
+                	console.log('Mensaje recibido del servidor: '+mensaje_servidor);
+            	};
+				
+            	ws.onclose = function(evt){
+            		console.log(evt.code); 
+            		console.log(evt.reason); 
+                	//se ha desconectado del servidor.
+                	console.log('se ha desconectado del servidor');
+            	};
+            }else{
+               // The browser doesn't support WebSocket
+               alert("Tu navegador no soporta WebSocket!");
+            }
+         }
+         //abrimos la conexion con el servidor
+         WebSocketTest();
+
+         function enviarMensaje(){
+         	var mensaje = $('#mensajeEnviar').val();
+         	if (mensaje!='') {
+         		ws.send("mensaje");
+         	}
+         }
+         
+      </script>
+</body>
+</html>

@@ -17,8 +17,6 @@
 
 
 #include "../include/user.h"
-//#include "../include/errors.h"
-//#include "../include/responses.h"
 #include "../include/text.h"
 
 char *uppercase(char[]);
@@ -27,10 +25,5 @@ char *stradd(char *, char *);
 void send_all(char *, char *, Node *);
 void send_names(User *, Node *, char *);
 void send_others(char *, char *, char *, Node *);
-
-//void send_user_info(User *, User *, char *);
-//void send_others_info(User *, Node *, char *);
-
-//void send_channel_users_info(User *, Node *, char *, char *);
 
 #endif

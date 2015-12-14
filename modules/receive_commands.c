@@ -2,8 +2,6 @@
 #include "../include/util.h"
 #include "../include/text.h"
 #include "../include/receive_commands.h"
-//#include "../include/responses.h"
-//#include "../include/errors.h"
 #include "../include/commands.h"
 
 void receive_nick(User *user, Node *users, char *nick, char *send_line) {
@@ -47,79 +45,45 @@ void receive_user(User *user, char *name, char *send_line) {
 }
 
 void receive_list(User *user, Node *users, char *send_line) {
-	char *channel;
 	Node *first  = users;
     Node *p      = users;
     User *target = (User *) p->payload;
-char *prim_line = strset("Los canales son:: ");
-char arreglo[10][20];
-char aux[20];
-int i, j, k;
-int l=0;
-
-//if(strcmp(target->current_channel, DUMMY_CHANNEL) != 0){
+	char *prim_line = strset("Los canales son:: ");
+	char arreglo[30][40];
+	char aux[40];
+	int i, j, k, l=0;
+	
 	strcpy(arreglo[l++], target->current_channel);	
-//}
-
-	//send_line = stradd(send_line, target->current_channel);
-	channel = target->current_channel;
+	
     p = p->next;
     target = (User *) p->payload;
 
 	
     while(p != first) {
-       // if(strcmp(target->current_channel, channel) != 0){
-			//send_line = stradd(send_line, ",");
-			//send_line = stradd(send_line, target->current_channel);
-	//	}	
-	//if(strcmp(target->current_channel, DUMMY_CHANNEL) != 0){
 		strcpy(arreglo[l++], target->current_channel);		
-	//}	
         p = p->next;
         target = (User *) p->payload;
     }
-	    // ORDENAR CADENAS
-    for(i=0; i<l-1; i++)
-    {
+	// ORDENAR CADENAS
+    for(i=0; i<l-1; i++){
         k=i;
         strcpy(aux, arreglo[i]);
-        for(j=i+1; j<l; j++)
-        {
-            if(strcmp(arreglo[j], aux)<0)
-            {
+        for(j=i+1; j<l; j++){
+            if(strcmp(arreglo[j], aux)<0){
                 k=j;
-                strcpy(aux, arreglo[j]);
-               //permite hacer una copia auxiliar de la cadena arreglo[j];
+                strcpy(aux, arreglo[j]); //permite hacer una copia auxiliar de la cadena arreglo[j];
             }
         }
         strcpy(arreglo[k],arreglo[i]);
         strcpy(arreglo[i],aux);
-    }
-
-
-
-
-
-
-//	char *tmp=strtok(send_line, ",\t\r\n");
-//	while(tmp != NULL){
-//		if(strcmp(target->current_channel, tmp) == 0){
-//			i++;
-//		}
-		/* Extraemos la siguiente palabra */
-//		tmp=strtok(NULL, ",\t\r\n");
-//	}
-
-
-//strcpy(arrreglo[l++], arreglo);	
-send_line = stradd(prim_line, *arreglo);
-for(i=1;i<l;i++){
-if(strcmp(arreglo[i], arreglo[i-1]) != 0){
-	send_line = stradd(send_line, ", ");
-	send_line = stradd(send_line, arreglo[i]);
-
-}
-}
+    }	
+	send_line = stradd(prim_line, *arreglo);
+	for(i=1;i<l;i++){
+		if(strcmp(arreglo[i], arreglo[i-1]) != 0){
+			send_line = stradd(send_line, ", ");
+			send_line = stradd(send_line, arreglo[i]);
+		}
+	}
 	send_line = stradd(send_line, "\n");
     write(user->socket, send_line, strlen(send_line));
 }
@@ -201,4 +165,58 @@ void receive_privmsg(User *user, Node *users, char *send_line, char *message) {
     }
 	send_line      = stradd(send_line, "\n");
     send_others(user->nick, channel, send_line, users);
+}
+Node *receive_quit(User *user, Node *users, pthread_mutex_t list_mutex, char *send_line) {
+    receive_part(user, users, send_line);
+
+    pthread_mutex_lock(&user->socket_mutex);
+    close(user->socket);
+    pthread_mutex_unlock(&user->socket_mutex);
+
+    pthread_mutex_lock(&list_mutex);
+    users = remove_user(users, user->nick);
+    pthread_mutex_unlock(&list_mutex);
+
+    if(length(users) > 0) {
+        return users;
+    }
+    else {
+        return empty_user_list();
+    }
+}
+
+void receive_time(User *user, char *send_line) {
+	time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+
+    char date[16], time[16];
+	
+	if(strcmp(user->current_channel, DUMMY_CHANNEL) != 0) {
+        send_line = strset(":");
+        send_line = stradd(send_line, user->nick);
+        send_line = stradd(send_line, "!");
+        send_line = stradd(send_line, user->hostname);
+        send_line = stradd(send_line, " ");
+        send_line = stradd(send_line, PRIVMSG);
+
+        send_line = stradd(send_line, " #");
+        send_line = stradd(send_line, user->current_channel);
+        send_line = stradd(send_line, " :");
+    }else {
+        send_line = strset(":irc.operativos.org NOTICE * :*** ");
+    }
+	sprintf(date, "%02d/%02d/%04d\n", tm.tm_mday, tm.tm_mon + 1,
+                                          tm.tm_year + 1900);
+
+    send_line     = stradd(send_line, "Fecha del Servidor: ");
+    send_line     = stradd(send_line, date);
+
+	    sprintf(time, "%02d:%02d:%02d -- %s\n", tm.tm_hour, tm.tm_min,
+                                            tm.tm_sec, tm.tm_zone);
+
+    send_line     = stradd(send_line, "Hora del  Servidor: ");
+    send_line     = stradd(send_line, time);
+
+    write(user->socket, send_line, strlen(send_line));
+	
 }

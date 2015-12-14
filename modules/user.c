@@ -84,3 +84,47 @@ User *get_user_by_nick(Node *users, char *nick) {
     }
     return NULL;
 }
+
+Node *remove_node(Node *list) {
+    if(list == NULL) {
+        return NULL;
+    }
+    else if(list->next == list) {
+        free(list);
+        return NULL;
+    }
+    else {
+        Node *p = list;
+        list->prev->next = list->next;
+        list->next->prev = list->prev;
+        list = list->next;
+        free(p);
+        return list;
+    }
+}
+
+Node *remove_user(Node *list, char *nick) {
+    if(list == NULL) {
+        return NULL;
+    }
+    else {
+        Node *p    = list;
+        User *user = (User *) p->payload;
+        if(strcmp(user->nick, nick) == 0) {
+            list = remove_node(p);
+            return list;
+        }
+        p    = p->next;
+        user = (User *) p->payload;
+        while(p != list) {
+            if(strcmp(user->nick, nick) == 0) {
+                list = remove_node(p);
+                return list;
+            }
+            p    = p->next;
+            user = (User *) p->payload;
+        }
+        printf("El Nick  %s no esta en la lista.\n", nick);
+        return list;
+    }
+}
