@@ -1,2 +1,4 @@
 encuestasvirtual
 *.pyc
+staticfiles
+static
