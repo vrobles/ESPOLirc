@@ -44,6 +44,20 @@ void receive_user(User *user, char *name, char *send_line) {
     write(user->socket, send_line, strlen(send_line));
 }
 
+void receive_info(User *user,char *send_line,char *runtimeDate) {
+    send_line = stradd(send_line, VERSION);
+    send_line = stradd(send_line,runtimeDate);
+
+
+    //send_line = stradd(send_line, user->name);
+    send_line = stradd(send_line, "\n");
+    //send_line = stradd(send_line, WELCOME_NICK);
+    //send_line = stradd(send_line, user->nick);
+    //send_line = stradd(send_line, "\n");
+
+    write(user->socket, send_line, strlen(send_line));
+}
+
 
 void receive_list(User *user, Node *users, char *send_line) {
 	Node *first  = users;

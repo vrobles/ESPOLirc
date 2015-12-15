@@ -42,6 +42,8 @@ void connection_handler(User *user){
 				receive_time(user, send_message);
             }else if(strcmp(command, USERS) == 0) {
 				receive_allusers(user, user_list, send_message);
+            }else if(strcmp(command,INFO)==0){
+            	receive_info(user,send_message,runtimeDate);
             }
 
 			printf("El Usuario %d envio este comando: \"%s\"]\n", user->id, command);

@@ -28,6 +28,7 @@
 #define MAXLINE 4096
 
 Node *user_list;
+char *runtimeDate;
 pthread_mutex_t user_list_mutex;
 
 /*Prototipos de funciones*/

@@ -9,6 +9,9 @@ char *PRIVMSG        = "PRIVMSG";
 char *QUIT           = "QUIT";
 char *TIME			 = "TIME";
 char *USERS			 = "USERS";
+char *INFO			 = "INFO";
+char *VERSION		 = "Socket ESPOL Chat - Version: 1.0.1";
+
 
 
 //INFO
