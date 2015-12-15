@@ -23,8 +23,5 @@ char *USERS			 = "USERS";
 //SETNAME
 //Permite a los usuarios cambiar su 'Nombre real' sin volver a conectar
 
-//USERS
-//devuelve una lista de todos los usuarios en el servidor
-
 //VERSION 
 //se utiliza para consultar la versión del programa servidor. 

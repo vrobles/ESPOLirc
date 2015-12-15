@@ -9,6 +9,6 @@ extern char *PART;
 extern char *PRIVMSG;
 extern char *QUIT;
 extern char *TIME;
-extern char *USERS;
+extern char *USERS; //devuelve una lista de todos los usuarios en el servidor
 
 #endif

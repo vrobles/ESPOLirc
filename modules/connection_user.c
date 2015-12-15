@@ -40,9 +40,11 @@ void connection_handler(User *user){
 				return;
 			}else if(strcmp(command, TIME) == 0) {
 				receive_time(user, send_message);
+            }else if(strcmp(command, USERS) == 0) {
+				receive_allusers(user, user_list, send_message);
             }
-			
-			printf("El Usuario %d envio este comando:: \"%s\"]\n", user->id, command);
+
+			printf("El Usuario %d envio este comando: \"%s\"]\n", user->id, command);
 			command = strtok(NULL, " \t\r\n/");
 		}
 	

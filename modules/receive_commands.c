@@ -88,6 +88,8 @@ void receive_list(User *user, Node *users, char *send_line) {
 	send_line = stradd(send_line, "\n");
     write(user->socket, send_line, strlen(send_line));
 }
+
+
 void receive_join(User *user, Node *users, char *channel, char *send_line) {
 	if(channel == NULL){
 		send_line = strset("Channel no ingresado!!!, Ingrese un channel. \n");
@@ -221,17 +223,46 @@ void receive_time(User *user, char *send_line) {
 	
 }
 
-
-
-void receive_users(User *user, Node *users, char *send_line){
-
-    //if(get_all_users(users) != NULL){
-        //send_line = strset("Este Nick ya existe!!!, Ingrese un nuevo nick. \n");
-       // write(user->socket, send_line, strlen(send_line));
-        //return;
-   // }
+void receive_allusers(User *user, Node *users, char *send_line) {
+    Node *first  = users;
+    Node *p      = users;
+    User *target = (User *) p->payload;
+    char *prim_line = strset("Los Usuarios son: ");
+    char arreglo[30][40];
+    char aux[40];
+    int i, j, k, l=0;
     
-    send_line = stradd(send_line, LIST_USER);
-    send_line = stradd(send_line, get_all_users(users)); 
+    strcpy(arreglo[l++], target->name);  
+    
+    p = p->next;
+    target = (User *) p->payload;
 
+    
+    while(p != first) {
+        strcpy(arreglo[l++], target->name);      
+        p = p->next;
+        target = (User *) p->payload;
+    }
+    // ORDENAR CADENAS
+    for(i=0; i<l-1; i++){
+        k=i;
+        strcpy(aux, arreglo[i]);
+        for(j=i+1; j<l; j++){
+            if(strcmp(arreglo[j], aux)<0){
+                k=j;
+                strcpy(aux, arreglo[j]);
+            }
+        }
+        strcpy(arreglo[k],arreglo[i]);
+        strcpy(arreglo[i],aux);
+    }   
+    send_line = stradd(prim_line, *arreglo);
+    for(i=1;i<l;i++){
+        if(strcmp(arreglo[i], arreglo[i-1]) != 0){
+            send_line = stradd(send_line, ", ");
+            send_line = stradd(send_line, arreglo[i]);
+        }
+    }
+    send_line = stradd(send_line, "\n");
+    write(user->socket, send_line, strlen(send_line));
 }
