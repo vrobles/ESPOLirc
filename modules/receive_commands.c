@@ -234,28 +234,35 @@ void receive_time(User *user, char *send_line) {
 	
 }
 
-void receive_allusers(User *user, Node *users, char *send_line) {
+void receive_allusers(User *user, Node *users, char *send_line){
     Node *first  = users;
     Node *p      = users;
     User *target = (User *) p->payload;
-    char *prim_line = strset("Los Usuarios son: ");
+    char *prim_line = strset("ircESPOL:  ");
     char arreglo[30][40];
+    char arreglonick[30][40];
+    char arregloip[30][40];
+
     char aux[40];
     int i, j, k, l=0;
     
-    strcpy(arreglo[l++], target->name);  
+    strcpy(arreglo[l++], target->name);
+    strcpy(arreglo[l++], target->nick);
+    strcpy(arregloip[l++], target->hostname);  
     
     p = p->next;
     target = (User *) p->payload;
 
     
     while(p != first) {
-        strcpy(arreglo[l++], target->name);      
+        strcpy(arreglo[l++], target->name);
+        strcpy(arreglo[l++], target->nick);
+        strcpy(arregloip[l++], target->hostname);      
         p = p->next;
         target = (User *) p->payload;
     }
     // ORDENAR CADENAS
-    for(i=0; i<l-1; i++){
+    /*for(i=0; i<l-1; i++){
         k=i;
         strcpy(aux, arreglo[i]);
         for(j=i+1; j<l; j++){
@@ -266,12 +273,19 @@ void receive_allusers(User *user, Node *users, char *send_line) {
         }
         strcpy(arreglo[k],arreglo[i]);
         strcpy(arreglo[i],aux);
-    }   
-    send_line = stradd(prim_line, *arreglo);
+    }*/
+    send_line = stradd("ircESPOL:  User    Nick    IP", "\n");
+    send_line = stradd(send_line, prim_line);   
+    send_line = stradd(send_line, *arreglo);
+    send_line = stradd(send_line, *arreglonick);
+    send_line = stradd(send_line, *arregloip);
     for(i=1;i<l;i++){
         if(strcmp(arreglo[i], arreglo[i-1]) != 0){
-            send_line = stradd(send_line, ", ");
+            send_line = stradd(send_line, " ");   
             send_line = stradd(send_line, arreglo[i]);
+            send_line = stradd(send_line, arreglonick[i]);
+            send_line = stradd(send_line, arregloip[i]);
+
         }
     }
     send_line = stradd(send_line, "\n");
