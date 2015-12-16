@@ -14,6 +14,7 @@ char *NAMES			 = "NAMES";
 char *VERSION		 = "Socket ESPOL Chat - Version: 1.0.1";
 char *VERSIONCMD	 = "VERSION";
 char *MOTD			    = "MOTD";
+char *SETNAME			  = "SETNAME";
 
 
 
