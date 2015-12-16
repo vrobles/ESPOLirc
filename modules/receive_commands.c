@@ -20,7 +20,7 @@ void receive_nick(User *user, Node *users, char *nick, char *send_line) {
 	
 	send_line = strset(":");
     send_line = stradd(send_line, user->nick);
-    send_line = stradd(send_line, "!");
+    send_line = stradd(send_line, "@");
     send_line = stradd(send_line, user->hostname);
     send_line = stradd(send_line, " ");
 	
@@ -47,14 +47,7 @@ void receive_user(User *user, char *name, char *send_line) {
 void receive_info(User *user,char *send_line,char *runtimeDate) {
     send_line = stradd(send_line, VERSION);
     send_line = stradd(send_line,runtimeDate);
-
-
-    //send_line = stradd(send_line, user->name);
     send_line = stradd(send_line, "\n");
-    //send_line = stradd(send_line, WELCOME_NICK);
-    //send_line = stradd(send_line, user->nick);
-    //send_line = stradd(send_line, "\n");
-
     write(user->socket, send_line, strlen(send_line));
 }
 
@@ -133,7 +126,7 @@ void receive_join(User *user, Node *users, char *channel, char *send_line) {
 void receive_part(User *user, Node *users, char *send_line) {
     send_line = strset(":");
     send_line = stradd(send_line, user->nick);
-    send_line = stradd(send_line, "!");
+    send_line = stradd(send_line, "@");
     send_line = stradd(send_line, user->hostname);
     send_line = stradd(send_line, " ");
     send_line = stradd(send_line, PART);
@@ -163,7 +156,7 @@ void receive_privmsg(User *user, Node *users, char *send_line, char *message) {
 
     send_line      = strset(":");
     send_line      = stradd(send_line, user->nick);
-    send_line      = stradd(send_line, "!");
+    send_line      = stradd(send_line, "@");
     send_line      = stradd(send_line, user->hostname);
     send_line      = stradd(send_line, " ");
     send_line      = stradd(send_line, PRIVMSG);

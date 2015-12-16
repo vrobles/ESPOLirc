@@ -64,6 +64,7 @@ Node *add_user(Node *list, char *name, char *nick, char *hostname,
         user->current_channel = malloc(strlen(channel) + 1);
         user->hostname        = malloc(strlen(hostname) + 1);
         strcpy(user->name, name);
+        strcpy(user->nick, nick);
         strcpy(user->hostname, hostname);
         strcpy(user->current_channel, channel);
         return list;

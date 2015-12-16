@@ -14,8 +14,6 @@ char *VERSION		 = "Socket ESPOL Chat - Version: 1.0.1";
 
 
 
-//INFO
-//información que describe el servidor: su versión, cuando se compiló el Patchlevel, cuando se inició
 
 //MOTD
 //Da el "mensaje del día" para un servidor que explica las políticas del servidor y otra información. Siempre debe leer esto antes de usar cualquier servidor.
