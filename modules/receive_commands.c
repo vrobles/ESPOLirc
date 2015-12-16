@@ -310,9 +310,7 @@ void receive_names(User *user, Node *users, char *send_line, char *channel){
     char arreglo[30][40];
     char arreglonick[30][40];
     char arregloip[30][40];
-
-    char aux[40];
-    int i, j, k, l=0;
+    int i, l=0;
     
     if (strcmp(target->current_channel,channel)==0){
         strcpy(arreglo[l++], target->name);
@@ -360,6 +358,7 @@ void receive_names(User *user, Node *users, char *send_line, char *channel){
 //agregar
 void receive_motd(User *user,char *send_line) {
     send_line = stradd(send_line, WELCOME);
+    send_line = stradd(send_line, "\n");
     send_line = stradd(send_line, "  ____________________________________________________________________  \n");
     send_line = stradd(send_line, "||                                                                    ||\n");
     send_line = stradd(send_line, "||                       << ircESPOL >>                               ||\n");
@@ -389,29 +388,28 @@ void receive_motd(User *user,char *send_line) {
     write(user->socket, send_line, strlen(send_line));
 }
 
-void receive_setname(User *user, Node *users, char *newnick, char *send_line) {
-    if(newnick == NULL){
+void receive_setname(User *user, Node *users, char *newname, char *send_line) {
+    if(newname == NULL){
         send_line = strset("Nick no ingresado!!!, Ingrese un nick. \n");
         write(user->socket, send_line, strlen(send_line));
         return;
     }
-    if(get_user_by_nick(users, newnick) != NULL){
-        send_line = strset("Este Nick ya existe!!!, Ingrese su nuevo nick. \n");
+    if(get_user_by_nick(users, newname) != NULL){
+        send_line = strset("Este Nombre de usuario ya existe!!!, Ingrese nuevo nombre. \n");
         write(user->socket, send_line, strlen(send_line));
         return;
     }
     
-    user->nick = strset(newnick);
-    
+    user->name = strset(newname);
     send_line = strset(":");
-    send_line = stradd(send_line, user->nick);
+    send_line = stradd(send_line, user->name);
     send_line = stradd(send_line, "@");
     send_line = stradd(send_line, user->hostname);
     send_line = stradd(send_line, " ");
     
-    send_line = stradd(send_line, NICK);
+    send_line = stradd(send_line, NAMES);
     send_line = stradd(send_line, " :");
-    send_line = stradd(send_line, user->nick);
+    send_line = stradd(send_line, user->name);
     send_line = stradd(send_line, "\n");
     send_all(user->current_channel, send_line, users);  
 }
