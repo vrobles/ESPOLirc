@@ -11,6 +11,7 @@ extern char *QUIT;
 extern char *TIME;
 extern char *USERS; //devuelve una lista de todos los usuarios en el servidor
 extern char *INFO;
+extern char *NAMES;
 extern char *VERSION;
 
 #endif
