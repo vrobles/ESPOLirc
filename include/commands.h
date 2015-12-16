@@ -14,5 +14,6 @@ extern char *INFO;
 extern char *NAMES;
 extern char *VERSION;
 extern char *VERSIONCMD;
+extern char *MOTD;
 
 #endif
