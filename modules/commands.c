@@ -13,6 +13,7 @@ char *INFO			 = "INFO";
 char *NAMES			 = "NAMES";
 char *VERSION		 = "Socket ESPOL Chat - Version: 1.0.1";
 char *VERSIONCMD	 = "VERSION";
+char *MOTD			    = "MOTD";
 
 
 
