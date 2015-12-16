@@ -50,6 +50,11 @@ void receive_info(User *user,char *send_line,char *runtimeDate) {
     send_line = stradd(send_line, "\n");
     write(user->socket, send_line, strlen(send_line));
 }
+void receive_version(User *user,char *send_line) {
+    send_line = stradd(send_line, VERSION);
+    send_line = stradd(send_line, "\n");
+    write(user->socket, send_line, strlen(send_line));
+}
 
 
 void receive_list(User *user, Node *users, char *send_line) {

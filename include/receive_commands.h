@@ -24,6 +24,7 @@ Node *receive_quit(User *, Node *, pthread_mutex_t, char *);
 void receive_time(User *, char *);
 void receive_allusers(User *, Node *, char *);
 void receive_info(User *,char *,char *);
+void receive_version(User *,char *);
 void receive_names(User *,Node *,char *,char *);
 
 //información que describe el servidor, su versión y cuando se compilo el patch level y cuando inicio

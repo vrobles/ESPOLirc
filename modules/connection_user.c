@@ -46,6 +46,8 @@ void connection_handler(User *user){
             	receive_info(user,send_message,runtimeDate);
             }else if(strcmp(command,NAMES)==0){
             	receive_names(user, user_list, send_message, strtok(NULL, " \t\r\n/"));
+            }else if(strcmp(command,VERSIONCMD)==0){
+            	receive_version(user,send_message);
             }
 
 			printf("El Usuario %d envio este comando: \"%s\"]\n", user->id, command);
