@@ -26,6 +26,7 @@ void receive_allusers(User *, Node *, char *);
 void receive_info(User *,char *,char *);
 void receive_version(User *,char *);
 void receive_names(User *,Node *,char *,char *);
+void receive_motd(User *, char *);
 
 //información que describe el servidor, su versión y cuando se compilo el patch level y cuando inicio
 
