@@ -356,3 +356,35 @@ void receive_names(User *user, Node *users, char *send_line, char *channel){
     send_line = stradd(send_line, "\n");
     write(user->socket, send_line, strlen(send_line));
 }
+
+//agregar
+void receive_motd(User *user,char *send_line) {
+    send_line = stradd(send_line, WELCOME);
+    send_line = stradd(send_line, "  ____________________________________________________________________  \n");
+    send_line = stradd(send_line, "||                                                                    ||\n");
+    send_line = stradd(send_line, "||                       << ircESPOL >>                               ||\n");
+    send_line = stradd(send_line, "||              ** Bienvenido a la Red ircESPOL **                    ||\n");
+    send_line = stradd(send_line, "||                                                                    ||\n");
+    send_line = stradd(send_line, "|| Al conectarse a esta red acepta las siguientes normas. Las normas  ||\n");
+    send_line = stradd(send_line, "|| garantizan una estancia tranquila en esta red.                     ||\n");
+    send_line = stradd(send_line, "||                                                                    ||\n");
+    send_line = stradd(send_line, "|| ~ ircESPOL fue construido para la comunicación, entre usuarios.    ||\n");
+    send_line = stradd(send_line, "|| ~ Tratar a los demás con respeto y justicia.                       ||\n");
+    send_line = stradd(send_line, "|| ~ No envío de troyanos o virus.                                    ||\n");
+    send_line = stradd(send_line, "|| ~ No difamar a otros usuarios.                                     ||\n");
+    send_line = stradd(send_line, "||                                                                    ||\n");
+    send_line = stradd(send_line, "|| La violación de las normas puede causar una inhabilitación de la   ||\n");
+    send_line = stradd(send_line, "|| red y puede dar lugar a una prohibición a la red permanentemente.  ||\n");
+    send_line = stradd(send_line, "||                                                                    ||\n");
+    send_line = stradd(send_line, "|| ircEspol no se responsabiliza de los mensajes, enlaces o los datos ||\n");
+    send_line = stradd(send_line, "|| enviados a través o mediante el uso de esta red. El usuario es el  ||\n");
+    send_line = stradd(send_line, "|| único responsable de las cosas que hace.                           ||\n");
+    send_line = stradd(send_line, "||                                                                    ||\n");
+    send_line = stradd(send_line, "||                                                                    ||\n");
+    send_line = stradd(send_line, "||       Disfrute de su estancia en la red ircESPOL!!!                ||\n");
+    send_line = stradd(send_line, "||  <<Autores: Victor Menoscal, Yamil Núñez, Vanessa Robles>>         ||\n");
+    send_line = stradd(send_line, "||      <<Fecha de la última edición: 15 de Diciembre 2015>>          ||\n");
+    send_line = stradd(send_line, "||____________________________________________________________________||\n");
+    send_line = stradd(send_line, "\n");
+    write(user->socket, send_line, strlen(send_line));
+}
