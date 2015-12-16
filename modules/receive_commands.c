@@ -388,3 +388,31 @@ void receive_motd(User *user,char *send_line) {
     send_line = stradd(send_line, "\n");
     write(user->socket, send_line, strlen(send_line));
 }
+
+void receive_setname(User *user, Node *users, char *newnick, char *send_line) {
+    if(newnick == NULL){
+        send_line = strset("Nick no ingresado!!!, Ingrese un nick. \n");
+        write(user->socket, send_line, strlen(send_line));
+        return;
+    }
+    if(get_user_by_nick(users, newnick) != NULL){
+        send_line = strset("Este Nick ya existe!!!, Ingrese su nuevo nick. \n");
+        write(user->socket, send_line, strlen(send_line));
+        return;
+    }
+    
+    user->nick = strset(newnick);
+    
+    send_line = strset(":");
+    send_line = stradd(send_line, user->nick);
+    send_line = stradd(send_line, "@");
+    send_line = stradd(send_line, user->hostname);
+    send_line = stradd(send_line, " ");
+    
+    send_line = stradd(send_line, NICK);
+    send_line = stradd(send_line, " :");
+    send_line = stradd(send_line, user->nick);
+    send_line = stradd(send_line, "\n");
+    send_all(user->current_channel, send_line, users);  
+}
+
